@@ -8,6 +8,11 @@ export type tilesType = {
   tall: number;
 };
 
+export type CoordinateType = {
+  x: number;
+  y: number;
+};
+
 export interface IRenderedTiles extends IIsometricTile {
   key: string;
 }

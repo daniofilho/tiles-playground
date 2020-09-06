@@ -12,13 +12,7 @@ export const Container = styled.main`
 
 export const Minimap = styled(animated.div)`
   position: relative;
-  overflow: hidden;
+  overflow: hidden !important;
   width: 100vw;
   height: 100vh;
-
-  & > div {
-    position: absolute;
-  }
-
-  /* background: #282a36; */
 `;
