@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useMemo, ReactElement } from "react";
+import React, { useState, useMemo } from "react";
 
 import IsometricTile from "components/IsometricTile";
 

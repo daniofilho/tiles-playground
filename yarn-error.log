@@ -1,5 +1,5 @@
 Arguments: 
-  /home/daniofilho/.asdf/installs/nodejs/14.2.0/bin/node /home/daniofilho/.asdf/installs/nodejs/14.2.0/.npm/bin/yarn add react-springs @types/react-springs
+  /home/daniofilho/.asdf/installs/nodejs/14.2.0/bin/node /home/daniofilho/.asdf/installs/nodejs/14.2.0/.npm/bin/yarn add @types/react-spring -D
 
 PATH: 
   /home/daniofilho/.asdf/installs/nodejs/14.2.0/bin:/home/daniofilho/.asdf/installs/nodejs/14.2.0/.npm/bin:/home/daniofilho/.zinit/polaris/sbin:/home/daniofilho/.zinit/polaris/bin:/home/daniofilho/.asdf/shims:/home/daniofilho/.asdf/bin:/home/daniofilho/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-springs: Not found
+  Error: https://registry.yarnpkg.com/@types%2freact-spring: Not found
       at Request.params.callback [as _callback] (/home/daniofilho/.asdf/installs/nodejs/14.2.0/.npm/lib/node_modules/yarn/lib/cli.js:66988:18)
       at Request.self.callback (/home/daniofilho/.asdf/installs/nodejs/14.2.0/.npm/lib/node_modules/yarn/lib/cli.js:140662:22)
       at Request.emit (events.js:315:20)
@@ -44,6 +44,7 @@ npm manifest:
       "react-dom": "^16.13.1",
       "react-game-engine": "^1.0.0",
       "react-scripts": "3.4.3",
+      "react-springs": "^1.1.0",
       "styled-components": "^5.2.0",
       "typescript": "~3.7.2"
     },
@@ -8862,6 +8863,11 @@ Lockfile:
       workbox-webpack-plugin "4.3.1"
     optionalDependencies:
       fsevents "2.1.2"
+  
+  react-springs@^1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/react-springs/-/react-springs-1.1.0.tgz#e091cd75d8b70d4bf164ee4f81007448b5e2a751"
+    integrity sha1-4JHNddi3DUvxZO5PgQB0SLXip1E=
   
   react@^16.13.1:
     version "16.13.1"

@@ -1,20 +1,10 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
+
+import { animated } from "react-spring";
 
 import tile from "./tile.png";
 
-const levitate = (y: number, tall: number) => keyframes`
-  0% {
-    margin-top: ${y}px;
-  }
-  50% {
-    margin-top: ${y - tall * 2.4}px;
-  }
-  100% {
-    margin-top: ${y - tall * 2.2}px;
-  }
-`;
-
-export const Tile = styled.div.attrs((props: IIsometricTile) => ({
+export const Tile = styled(animated.div).attrs((props: IIsometricTile) => ({
   style: {
     width: props.size.width,
     height: props.size.height,
@@ -23,7 +13,8 @@ export const Tile = styled.div.attrs((props: IIsometricTile) => ({
   },
 }))<IIsometricTile>`
   position: absolute;
-  transition: 1s;
+  transition: 0.5s;
+  transition-timing-function: ease;
 
   display: flex;
   flex-direction: row;
@@ -57,8 +48,7 @@ export const Tile = styled.div.attrs((props: IIsometricTile) => ({
   }
 
   &:hover {
-    animation: ${({ y, tall }) => levitate(y, tall)} 1s ease-in-out alternate
-      infinite;
+    margin-top: ${({ y, tall }) => y - tall * 2.2}px !important;
 
     &:before {
       filter: brightness(110%);
