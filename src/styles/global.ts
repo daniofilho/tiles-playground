@@ -17,6 +17,7 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialised;
     background: #21222c;
     font-family: 'Press Start 2P', cursive;
+    color: #FFF;
   }
 
   img {

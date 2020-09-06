@@ -8795,10 +8795,10 @@ react-spring@^8.0.27:
     "@babel/runtime" "^7.3.1"
     prop-types "^15.5.8"
 
-react-springs@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-springs/-/react-springs-1.1.0.tgz#e091cd75d8b70d4bf164ee4f81007448b5e2a751"
-  integrity sha1-4JHNddi3DUvxZO5PgQB0SLXip1E=
+react-use-gesture@^7.0.16:
+  version "7.0.16"
+  resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-7.0.16.tgz#501985261ef9c815a377b6ff9be6df5a85fbb54f"
+  integrity sha512-gwgX+E+WQG0T1uFVl3z8j3ZwH3QQGIgVl7VtQEC2m0IscSs668sSps4Ss3CFp3Vns8xx0j9TVK4aBXH6+YrpEg==
 
 react@^16.13.1:
   version "16.13.1"

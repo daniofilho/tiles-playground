@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { animated } from "react-spring";
 
 export const Container = styled.main`
   flex: 1;
@@ -9,11 +10,15 @@ export const Container = styled.main`
   align-items: center;
 `;
 
-export const MiniMap = styled.div`
+export const Minimap = styled(animated.div)`
   position: relative;
-  /*overflow: hidden;*/
-  width: 70vw;
-  height: 70vh;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+
+  & > div {
+    position: absolute;
+  }
 
   /* background: #282a36; */
 `;

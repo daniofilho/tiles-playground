@@ -21,8 +21,6 @@ export const Tile = styled(animated.div).attrs((props: IIsometricTile) => ({
   justify-content: center;
   align-items: center;
 
-  cursor: pointer;
-
   /* Shape of tile */
   clip-path: polygon(
     45% 0,
@@ -48,7 +46,7 @@ export const Tile = styled(animated.div).attrs((props: IIsometricTile) => ({
   }
 
   &:hover {
-    margin-top: ${({ y, tall }) => y - tall * 2.2}px !important;
+    /*margin-top: ${({ y, tall }) => y - tall * 2.2}px !important;*/
 
     &:before {
       filter: brightness(110%);
