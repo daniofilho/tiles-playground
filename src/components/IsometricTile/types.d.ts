@@ -1,4 +1,5 @@
 declare interface IIsometricTile {
+  id: string;
   x: number;
   y: number;
   size: {
@@ -6,4 +7,8 @@ declare interface IIsometricTile {
     height: number;
   };
   tall: number;
+  active: boolean;
+  adjacent: boolean;
+  discovered: boolean;
+  discoverTile(id: string): void;
 }

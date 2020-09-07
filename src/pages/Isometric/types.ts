@@ -13,6 +13,17 @@ export type CoordinateType = {
   y: number;
 };
 
-export interface IRenderedTiles extends IIsometricTile {
+export interface IRenderedTiles {
   key: string;
+  id: string;
+  x: number;
+  y: number;
+  size: {
+    width: number;
+    height: number;
+  };
+  tall: number;
+  active: boolean;
+  adjacent: boolean;
+  discovered: boolean;
 }
