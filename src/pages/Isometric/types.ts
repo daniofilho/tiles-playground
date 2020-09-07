@@ -8,6 +8,13 @@ export type tilesType = {
   tall: number;
 };
 
+export type ActiveTileType = {
+  id: string;
+  x: number;
+  y: number;
+  adjacents: Array<string>;
+};
+
 export type CoordinateType = {
   x: number;
   y: number;

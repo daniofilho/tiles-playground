@@ -3,23 +3,34 @@ import styled from "styled-components";
 import tile from "./tile.png";
 import tileInactive from "./inactive.png";
 
-const getTile = (isActive: boolean, discovered: boolean) => {
-  if (isActive) return tile;
+type getTileType = {
+  active: boolean;
+  discovered: boolean;
+};
+const getTile = ({ active, discovered }: getTileType) => {
+  if (active) return tile;
   if (discovered) return tile;
 
   return tileInactive;
 };
 
-const getOpacity = (isActive: boolean, isAdjacent: boolean) => {
+const getOpacity = (
+  isActive: boolean,
+  isAdjacent: boolean,
+  isDiscovered: boolean
+) => {
+  if (isActive || isDiscovered) return 1;
   if (isAdjacent) return 0.7;
-  if (isActive) return 1;
 
   return 0.1;
 };
 
-const getOpacityHover = (isActive: boolean, isAdjacent: boolean) => {
-  if (isAdjacent) return 1;
-  if (isActive) return 1;
+const getOpacityHover = (
+  isActive: boolean,
+  isAdjacent: boolean,
+  isDiscovered: boolean
+) => {
+  if (isAdjacent || isActive || isDiscovered) return 1;
 
   return 0.6;
 };
@@ -70,8 +81,7 @@ export const Tile = styled.div.attrs((props: TileType) => ({
     content: " ";
     width: ${({ size }) => size.width}px;
     height: ${({ size }) => size.height}px;
-    background-image: url(${({ active, discovered }) =>
-      getTile(active, discovered)});
+    background-image: url(${(props) => getTile(props)});
     background-size: cover;
     background-repeat: no-repeat;
 
@@ -79,15 +89,29 @@ export const Tile = styled.div.attrs((props: TileType) => ({
     image-rendering: pixelated;
 
     opacity: ${({ active, adjacent, discovered }) =>
-      getOpacity(active, adjacent)};
+      getOpacity(active, adjacent, discovered)};
   }
 
-  &:hover {
-    margin-top: ${({ y, tall }) => y - tall * 1.2}px !important;
+  img {
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: pixelated;
 
-    &:before {
-      filter: brightness(110%);
-      opacity: ${({ active, adjacent }) => getOpacityHover(active, adjacent)};
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+  }
+
+  @media (min-width: 991px) {
+    &:hover {
+      margin-top: ${({ y, tall }) => y - tall * 1.2}px !important;
+
+      &:before {
+        filter: brightness(110%);
+        opacity: ${({ active, adjacent, discovered }) =>
+          getOpacityHover(active, adjacent, discovered)};
+      }
     }
   }
 `;

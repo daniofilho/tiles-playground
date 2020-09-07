@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { animated } from "react-spring";
 
 export const Container = styled.main`
   flex: 1;
@@ -10,7 +9,16 @@ export const Container = styled.main`
   align-items: center;
 `;
 
-export const Minimap = styled(animated.div)`
+export const Instructions = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 15px;
+  font-size: 11px;
+  z-index: 100;
+`;
+
+export const Minimap = styled.div`
   position: relative;
   overflow: hidden !important;
   width: 100vw;

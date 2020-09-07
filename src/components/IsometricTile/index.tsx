@@ -1,5 +1,7 @@
 import React, { useCallback } from "react";
 
+import pin from "./pin.png";
+
 import { Tile } from "./styles";
 
 const IsometricTile: React.FC<IIsometricTile> = ({
@@ -15,7 +17,6 @@ const IsometricTile: React.FC<IIsometricTile> = ({
 }) => {
   const handleClick = useCallback((): void => {
     if (!adjacent && !discovered) return;
-    console.log(id);
     discoverTile(id);
   }, [adjacent, id, discoverTile, discovered]);
 
@@ -30,7 +31,7 @@ const IsometricTile: React.FC<IIsometricTile> = ({
       discovered={discovered}
       onClick={() => handleClick()}
     >
-      {active && <p>X</p>}
+      {active && <img src={pin} alt="Pin" />}
     </Tile>
   );
 };

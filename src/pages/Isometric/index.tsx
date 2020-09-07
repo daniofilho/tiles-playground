@@ -15,32 +15,30 @@ import IsometricTile from "components/IsometricTile";
 
 import { tilesType, IRenderedTiles } from "./types";
 
-import { Container, Minimap } from "./styles";
+import { Container, Minimap, Instructions } from "./styles";
 
 const Isometric: React.FC = () => {
   gsap.registerPlugin(Draggable);
 
+  const windowSizeMultiplier = 7;
+
   const tiles = useMemo<tilesType>(() => {
     return {
-      onX: 5,
-      onY: 5,
+      onX: 10,
+      onY: 20,
       size: {
-        width: 32 * 7,
-        height: 30 * 7,
+        width: 32 * windowSizeMultiplier,
+        height: 30 * windowSizeMultiplier,
       },
       tall: 16,
     };
-  }, []);
+  }, [windowSizeMultiplier]);
 
-  const [activeTile, setActiveTile] = useState({
-    id: getTileID(Math.floor(tiles.onX / 2), Math.floor(tiles.onY / 2)),
-    x: Math.floor(tiles.onX / 2),
-    y: Math.floor(tiles.onY / 2),
-  });
+  /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-  const adjacentTiles = useMemo(() => {
+  const getAdjacentTiles = useCallback((activeTile): Array<string> => {
     let top, bot, left, right;
-    console.log(activeTile);
+
     if (activeTile.y % 2) {
       top = getTileID(activeTile.x, activeTile.y - 1);
       bot = getTileID(activeTile.x - 1, activeTile.y + 1);
@@ -54,11 +52,29 @@ const Isometric: React.FC = () => {
     }
 
     return [top, bot, left, right];
-  }, [activeTile]);
+  }, []);
 
-  /*const quantity = useMemo((): number => {
-    return tiles.onX * tiles.onY;
-  }, [tiles.onX, tiles.onY]);*/
+  const getActiveTileProps = useCallback(
+    (id: string) => {
+      const props = getTileProps(id);
+      return {
+        ...props,
+        adjacents: getAdjacentTiles(props),
+      };
+    },
+    [getAdjacentTiles]
+  );
+
+  const INITIAL_ACTIVE_X = Math.floor(tiles.onX / 2);
+  const INITIAL_ACTIVE_Y = Math.floor(tiles.onY / 2);
+  const INITIAL_ACTIVE_TILE = getActiveTileProps(
+    getTileID(INITIAL_ACTIVE_X, INITIAL_ACTIVE_Y)
+  );
+
+  const [activeTile, setActiveTile] = useState(INITIAL_ACTIVE_TILE);
+  const [discoveredTiles, setDiscoveredTiles] = useState([
+    INITIAL_ACTIVE_TILE.id,
+  ]);
 
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -70,6 +86,7 @@ const Isometric: React.FC = () => {
       type: "scroll",
       dragClickables: true,
       throwProps: true,
+      minimumMovement: 20,
     });
   }, []); // Start drag and update
 
@@ -116,87 +133,69 @@ const Isometric: React.FC = () => {
   }, [centerScreenOnActiveTile]);
 
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-  const [renderedTiles, setRenderedTiles] = useState<
-    Array<IRenderedTiles | null>
-  >([]);
+  const getInitialRenderTiles = useCallback(
+    (param_activeTile): Array<IRenderedTiles | null> => {
+      const aux: Array<IRenderedTiles | null> = [];
 
-  const initialRenderTiles = useCallback((): void => {
-    const aux: Array<IRenderedTiles | null> = [];
+      let tileY = 0;
 
-    let tileY = 0;
+      new Array(tiles.onY).fill("").map((_, y) => {
+        new Array(tiles.onX).fill("").map((_, x) => {
+          const tileId = getTileID(x, y);
 
-    new Array(tiles.onY).fill("").map((_, y) => {
-      new Array(tiles.onX).fill("").map((_, x) => {
-        const tileId = getTileID(x, y);
+          const isDiscovered = discoveredTiles.includes(tileId);
+          const isAdjacent = param_activeTile.adjacents.includes(tileId);
+          const isActive = param_activeTile.id === tileId;
 
-        const isAdjacent = adjacentTiles.includes(tileId);
-        const isActive = activeTile.id === tileId;
+          const posX =
+            y % 2
+              ? x * tiles.size.width
+              : x * tiles.size.width + tiles.size.width / 2;
 
-        const posX =
-          y % 2
-            ? x * tiles.size.width
-            : x * tiles.size.width + tiles.size.width / 2;
-
-        return aux.push({
-          key: tileId,
-          id: tileId,
-          x: posX,
-          y: tileY,
-          size: tiles.size,
-          tall: tiles.tall,
-          active: isActive,
-          adjacent: isAdjacent,
-          discovered: false,
+          return aux.push({
+            key: tileId,
+            id: tileId,
+            x: posX,
+            y: tileY,
+            size: tiles.size,
+            tall: tiles.tall,
+            active: isActive,
+            adjacent: isAdjacent,
+            discovered: isDiscovered,
+          });
         });
+        tileY += tiles.size.height / 2 - tiles.tall;
+        return true;
       });
-      tileY += tiles.size.height / 2 - tiles.tall;
-      return true;
-    });
 
-    setRenderedTiles(aux);
-  }, [
-    activeTile.id,
-    adjacentTiles,
-    setRenderedTiles,
-    tiles.onX,
-    tiles.onY,
-    tiles.size,
-    tiles.tall,
-  ]);
+      return aux;
+    },
+    [discoveredTiles, tiles.onX, tiles.onY, tiles.size, tiles.tall]
+  );
 
-  useEffect(() => {
-    initialRenderTiles();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const renderedTiles = useMemo(() => {
+    return getInitialRenderTiles(activeTile);
+  }, [activeTile, getInitialRenderTiles]);
 
   /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
   const discoverTile = (id: string) => {
-    if (!renderedTiles) return;
-
-    // Change prop on renderedTiles
-    const aux: Array<IRenderedTiles | null> = [];
-    renderedTiles.map((tile) => {
-      if (tile && tile.id === id) {
-        return aux.push({ ...tile, discovered: true });
-      }
-
-      return aux.push(tile);
-    });
-    setRenderedTiles(aux);
+    const discovereds = [...discoveredTiles];
+    discovereds.push(id);
+    setDiscoveredTiles(discovereds);
 
     // make this new tile active
-    setActiveTile(getTileProps(id));
+    setActiveTile(getActiveTileProps(id));
   };
 
   return (
     <Container>
+      <Instructions>
+        <p>Click to move player or click and drag to move map.</p>
+      </Instructions>
       <Minimap id="Minimap" ref={minimap}>
         {renderedTiles &&
           renderedTiles.map((tile: IRenderedTiles | null) => {
-            if (tile?.discovered) {
-              console.log(tile);
-            }
             if (tile)
               return <IsometricTile {...tile} discoverTile={discoverTile} />;
             return <></>;
