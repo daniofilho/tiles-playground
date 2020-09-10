@@ -2,4 +2,4 @@
 
 Just some experiment with tiles, check the result here:
 
-[https://tiles-playground.daniofilho.vercel.app/]
+https://tiles-playground.daniofilho.vercel.app/
