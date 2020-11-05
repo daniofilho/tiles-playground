@@ -163,6 +163,7 @@ type Player = {
 - Criar personanges e cada personagem tem suas caracteristicas e uma habilidade especial
 - Permitir selecionar o tipo de mapa antes de iniciar partida, assim cada mapa terá seus inimigos próprios e seu cenário
 - Permitir salvar/carregar o jogo atual
+- Criar um self updater
 
 ---
 
